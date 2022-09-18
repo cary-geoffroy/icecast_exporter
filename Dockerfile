@@ -7,11 +7,12 @@ RUN apk add --no-cache git
 COPY . /go/src/icecast_exporter
 
 RUN go get .
+RUN go build -buildvcs=false .
 
 # Final stage
 FROM alpine
 
-COPY --from=build /go/bin/icecast_exporter /icecast_exporter
+COPY --from=build /go/src/icecast_exporter/icecast_exporter /icecast_exporter
 
 EXPOSE 9146
 USER nobody
